@@ -1,0 +1,35 @@
+@charset "UTF-8";
+.page-link-box {
+	text-align: center;
+}
+.custom-page-links {
+	padding: 5px 10px;
+	display: inline-block;
+}
+.custom-page-links a {
+	text-decoration: none;
+}
+.custom-page-links a span {
+	margin-right: 10px;
+}
+.page-link {
+	margin-top: 0;
+	padding: 0;
+	list-style: none;
+}
+.page-link li {
+	margin: 0 5px;
+	display: inline-block;
+}
+.page-link li.numpages a {
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	padding: 5px 11px;
+	background: #c2c1c1;
+	display: block;
+}
+.page-link li.current a,
+.page-link li.numpages a:hover {
+	background: #e83d1f;
+}

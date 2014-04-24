@@ -1,0 +1,54 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Nextpage\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-04-24 20:31+0900\n"
+"PO-Revision-Date: 2014-04-24 20:37+0900\n"
+"Last-Translator: Webnist <webnist@webnist.org>\n"
+"Language-Team: Webnist <webnist@webnist.org>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: custom-nextpage.php:93 includes/class-admin-menu.php:14
+msgid "<span>Next Page</span>"
+msgstr "<span class=”nav-next”>&raquo;次ページ</span>"
+
+#: custom-nextpage.php:110 includes/class-admin-menu.php:16
+msgid "Next page"
+msgstr "&raquo;次ページ"
+
+#: custom-nextpage.php:111 includes/class-admin-menu.php:17
+msgid "Previous page"
+msgstr "&laquo;前のページ"
+
+#: includes/class-admin-menu.php:25
+msgid "Custom Nextpage"
+msgstr ""
+
+#: includes/class-admin-menu.php:29
+msgid "Set Custom Nextpage"
+msgstr "Custom Nextpage 設定"
+
+#: includes/class-admin-menu.php:47
+msgid "Before Text"
+msgstr "タイトルナビゲーションの前に入れるテキスト。"
+
+#: includes/class-admin-menu.php:48
+msgid "After Text"
+msgstr "タイトルナビゲーションの後ろに入れるテキスト。"
+
+#: includes/class-admin-menu.php:50
+msgid "Next Page Link Text"
+msgstr "次のページリンクのテキスト"
+
+#: includes/class-admin-menu.php:51
+msgid "Previous Page Link Text"
+msgstr "前のページリンクのテキスト"
