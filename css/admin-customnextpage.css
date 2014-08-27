@@ -1,0 +1,7 @@
+@charset "UTF-8";
+span.mce_customnextpage {
+	background: none!important;
+}
+span.mce_customnextpage:before {
+content: '\f209';
+}
