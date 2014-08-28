@@ -1,26 +1,30 @@
 tinymce.PluginManager.add('customnextpage', function(editor) {
 
-	// Replace Read More/Next Page tags with images
+	// Replace nextpage with images
 	editor.on( 'BeforeSetContent', function( e ) {
 		if ( e.content ) {
 			if ( e.content.indexOf( '[nextpage' ) !== -1 ) {
-				e.content = e.content.replace( /\[nextpage(.*?)\]/g, function( match, moretext ) {
-					moretext = moretext.replace( / title="(.*?)"/g, '$1' );
-					return '<img src="' + tinymce.Env.transparentSrc + '" class="wp-custom-next-tag" ' +
-						'title="' + moretext + '" data-mce-resize="false" data-mce-placeholder="1" />';
+				url   = tinymce.PluginManager.urls.customnextpage;
+				image = '<img src="' + url + '/img/custom-next-page.png" class="custom-next-tag" alt="" data-mce-resize="false" data-mce-placeholder="1" />';
+				e.content = e.content.replace( /\[nextpage(.*?)\]/g, function( a ) {
+					if ( a.indexOf( 'title=' ) !== -1 ) {
+						title = a.match( /title="([^"]+)"/ );
+						return image.replace( /alt="(.*?)"/g, 'alt="' + title[1] + '"' );
+					}
+					return image;
 				});
 			}
 		}
 	});
 
-	// Replace images with tags
+	// Replace images with nextpage
 	editor.on( 'PostProcess', function( e ) {
 		if ( e.get ) {
-			e.content = e.content.replace(/<img[^>]+>/g, function( image ) {
+			e.content = e.content.replace( /<img[^>]+>/g, function( image ) {
 				var match, moretext = '';
 
-				if ( image.indexOf('wp-custom-next-tag') !== -1 ) {
-					if ( match = image.match( /data-wp-more="([^"]+)"/ ) ) {
+				if ( image.indexOf( 'custom-next-tag' ) !== -1 ) {
+					if ( match = image.match( /alt="([^"]+)"/ ) ) {
 						moretext = match[1];
 						moretext = ' title="' + moretext + '"';
 					}
@@ -33,12 +37,12 @@ tinymce.PluginManager.add('customnextpage', function(editor) {
 	});
 
 	function showDialog() {
-		var data = {}, selection = editor.selection, dom = editor.dom, selectedElm, anchorElm, initialText, win, value;
+		var data = {}, selection = editor.selection, dom = editor.dom, selectedElm, anchorElm, win, value;
 
 		selectedElm = selection.getNode();
-		anchorElm   = dom.getParent(selectedElm, 'img.wp-custom-next-tag');
+		anchorElm   = dom.getParent(selectedElm, 'img.custom-next-tag');
 
-		if ((value = dom.getAttrib(anchorElm, 'title'))) {
+		if ((value = dom.getAttrib(anchorElm, 'alt'))) {
 			data.title = value;
 		}
 
@@ -63,11 +67,11 @@ tinymce.PluginManager.add('customnextpage', function(editor) {
 	}
 
 	editor.addButton('customnextpage', {
-		icon             : 'wp_more',
+		icon             : 'customnextpage',
 		tooltip          : 'Custom Nextpage Shortcode',
 		onclick          : showDialog,
 		context          : 'insert',
-		stateSelector    : 'img.wp-custom-next-tag',
+		stateSelector    : 'img.custom-next-tag',
 		prependToContext : true
 	});
 

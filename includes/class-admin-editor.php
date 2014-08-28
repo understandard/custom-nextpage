@@ -22,9 +22,7 @@ class CustomNextPageEditor {
 	}
 	// Admin
 	function admin_print_scripts() {
-		global $wp_version;
-		if ( version_compare( $wp_version, '3.9', '<' ) )
-			wp_enqueue_style( 'admin-customnextpage', $this->plugin_dir_url . '/css/admin-customnextpage.css', array(), CustomNextPage::VERSION );
+		wp_enqueue_style( 'admin-customnextpage', $this->plugin_dir_url . '/css/admin-customnextpage.css', array(), CustomNextPage::VERSION );
 	}
 
 	function mce_buttons_3($buttons) {
@@ -35,9 +33,9 @@ class CustomNextPageEditor {
 		global $wp_version;
 		if ( version_compare( $wp_version, '3.9', '>=' ) ) {
 			//$plugins_array['table'] = get_template_directory_uri() . '/tinymce4/plugins/table/plugin.min.js';
-			$plugin_array['customnextpage']  =  $this->plugin_dir_url . '/includes/tinymce/plugins/customnextpage/plugin.js';
+			$plugin_array['customnextpage']  =  $this->plugin_dir_url . 'includes/tinymce/plugins/customnextpage/plugin.js';
 		} else {
-			$plugin_array['customnextpage']  =  $this->plugin_dir_url . '/includes/tinymce/plugins/customnextpage/editor_plugin.js';
+			$plugin_array['customnextpage']  =  $this->plugin_dir_url . 'includes/tinymce/plugins/customnextpage/editor_plugin.js';
 		}
 		return $plugin_array;
 	}
@@ -57,10 +55,10 @@ class CustomNextPageEditor {
 				</div>
 				<div class="submitbox">
 					<div id="customnextpage-update">
-						<input type="submit" value="<?php esc_attr_e( 'Insert' ); ?>" class="button-primary" id="customnextpage-submit" name="customnextpage-submit">
+						<input type="submit" value="<?php esc_attr_e( 'OK' ); ?>" class="button-primary" id="customnextpage-submit">
 					</div>
 					<div id="customnextpage-cancel">
-						<a class="submitdelete deletion" href="#"><?php _e( 'Cancel' ); ?></a>
+						<input type="button" value="<?php _e( 'Cancel' ); ?>" class="button tagadd" id="customnextpage-submit">
 					</div>
 				</div>
 			</form>

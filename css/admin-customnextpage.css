@@ -1,7 +1,38 @@
 @charset "UTF-8";
-span.mce_customnextpage {
-	background: none!important;
+span.mce_customnextpage,
+i.mce-i-customnextpage {
+	background: url('../images/custom-next-page.png') center center;
 }
-span.mce_customnextpage:before {
-content: '\f209';
+
+#customnextpage-dialog {
+	padding: 20px 10px 0;
+}
+
+#customnextpage-options {
+	text-align: left;
+}
+#customnextpage-options span {
+	vertical-align: middle;
+}
+#customnextpage-options input {
+	float: right;
+}
+#customnextpage-dialog .submitbox {
+	margin-top: 15px;
+	clear: both;
+}
+#customnextpage-dialog .submitbox div {
+	width: auto;
+	margin-left: 10px;
+	float: right;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.2), screen and (min--moz-device-pixel-ratio: 1.2), screen and (-moz-min-device-pixel-ratio: 1.2), screen and (min-device-pixel-ratio: 1.2) {
+
+	span.mce_customnextpage,
+	i.mce-i-customnextpage {
+		background-image: url('../images/custom-next-page@2x.png');
+		background-size: 20px;
+	}
+
 }
