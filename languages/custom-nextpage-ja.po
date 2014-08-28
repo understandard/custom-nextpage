@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Custom Nextpage\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-28 19:45+0900\n"
-"PO-Revision-Date: 2014-08-28 19:45+0900\n"
+"POT-Creation-Date: 2014-08-28 20:14+0900\n"
+"PO-Revision-Date: 2014-08-28 20:14+0900\n"
 "Last-Translator: Webnist <webnist@webnist.org>\n"
 "Language-Team: Webnist <webnist@webnist.org>\n"
 "Language: ja\n"
@@ -17,10 +17,6 @@ msgstr ""
 "X-Generator: Poedit 1.6.3\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: custom-nextpage.php:93 includes/class-admin-menu.php:14
-msgid "<span>Next Page</span>"
-msgstr "<span class=”nav-next”>&raquo;次ページ</span>"
-
 #: custom-nextpage.php:110 includes/class-admin-menu.php:16
 msgid "Next page"
 msgstr "&raquo;次ページ"
@@ -29,11 +25,11 @@ msgstr "&raquo;次ページ"
 msgid "Previous page"
 msgstr "&laquo;前のページ"
 
-#: includes/class-admin-editor.php:53
+#: includes/class-admin-editor.php:59
 msgid "Title"
 msgstr "タイトル:"
 
-#: includes/class-admin-editor.php:62
+#: includes/class-admin-editor.php:68
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -61,5 +57,10 @@ msgstr "次のページリンクのテキスト"
 msgid "Previous Page Link Text"
 msgstr "前のページリンクのテキスト"
 
-#~ msgid "Custom Nextpage Shortcode"
-#~ msgstr "カスタムネクストページ"
+#: includes/tinymce/plugins/customnextpage/langs/langs.php:4
+#: includes/tinymce/plugins/customnextpage/langs/langs.php:5
+msgid "Custom Nextpage Shortcode"
+msgstr "カスタムネクストページ"
+
+#~ msgid "<span>Next Page</span>"
+#~ msgstr "<span class=”nav-next”>&raquo;次ページ</span>"
