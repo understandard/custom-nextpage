@@ -90,7 +90,7 @@ class CustomNextPage {
 				$pattern = '/title=["?](.*)["?]/';
 				preg_match( $pattern, $page_title, $matches);
 				$title  = isset( $matches[1] ) ? esc_html( $matches[1] ) : '';
-				$before = apply_filters( 'custom_next_page_before', get_option( 'custom-next-page-before-text', __( '<span>Next Page</span>', self::TEXT_DOMAIN ) ) );
+				$before = apply_filters( 'custom_next_page_before', get_option( 'custom-next-page-before-text' ) );
 				$after  = apply_filters( 'custom_next_page_after', get_option( 'custom-next-page-after-text' ) );
 				$output .= '<p class="custom-page-links">' ."\n";
 				if ( $page_count <= $numpages && $more ) {

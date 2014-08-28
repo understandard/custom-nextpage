@@ -11,7 +11,7 @@ class CustomNextPageAdmin {
 		$this->plugin_basename       = CustomNextPage::plugin_basename();
 		$this->plugin_dir_path       = CustomNextPage::plugin_dir_path();
 		$this->plugin_dir_url        = CustomNextPage::plugin_dir_url();
-		$this->before_text           = get_option( 'custom-next-page-before-text', __( '<span>Next Page</span>', CustomNextPage::TEXT_DOMAIN ) );
+		$this->before_text           = get_option( 'custom-next-page-before-text' );
 		$this->after_text            = get_option( 'custom-next-page-after-text' );
 		$this->nextpagelink_text     = get_option( 'custom-next-page-nextpagelink', __( 'Next page', CustomNextPage::TEXT_DOMAIN ) );
 		$this->previouspagelink_text = get_option( 'custom-next-page-previouspagelink', __( 'Previous page', CustomNextPage::TEXT_DOMAIN ) );

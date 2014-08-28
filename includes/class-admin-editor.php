@@ -50,16 +50,16 @@ class CustomNextPageEditor {
 				<div id="customnextpage-selector">
 					<div id="customnextpage-options">
 						<div>
-							<label><span><?php _e( 'Title' ); ?></span><input id="customnextpage-title-field" type="text" name="title" /></label>
+							<label><span><?php _e( 'Title', CustomNextPage::TEXT_DOMAIN ); ?></span><input id="customnextpage-title-field" type="text" name="title" /></label>
 						</div>
 					</div>
 				</div>
 				<div class="submitbox">
 					<div id="customnextpage-update">
-						<input type="submit" value="<?php esc_attr_e( 'OK' ); ?>" class="button-primary" id="customnextpage-submit">
+						<input type="submit" value="<?php esc_attr_e( 'OK', CustomNextPage::TEXT_DOMAIN ); ?>" class="button-primary" id="customnextpage-submit">
 					</div>
 					<div id="customnextpage-cancel">
-						<input type="button" value="<?php _e( 'Cancel' ); ?>" class="button tagadd" id="customnextpage-submit">
+						<input type="button" value="<?php _e( 'Cancel', CustomNextPage::TEXT_DOMAIN ); ?>" class="button tagadd" id="customnextpage-submit">
 					</div>
 				</div>
 			</form>
