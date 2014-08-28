@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Custom Nextpage\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-28 20:14+0900\n"
-"PO-Revision-Date: 2014-08-28 20:14+0900\n"
+"POT-Creation-Date: 2014-08-28 21:48+0900\n"
+"PO-Revision-Date: 2014-08-28 21:48+0900\n"
 "Last-Translator: Webnist <webnist@webnist.org>\n"
 "Language-Team: Webnist <webnist@webnist.org>\n"
 "Language: ja\n"
@@ -17,43 +17,51 @@ msgstr ""
 "X-Generator: Poedit 1.6.3\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: custom-nextpage.php:110 includes/class-admin-menu.php:16
+#: custom-nextpage.php:39 includes/class-admin-menu.php:18
 msgid "Next page"
-msgstr "&raquo;次ページ"
+msgstr "次ページ &raquo;"
 
-#: custom-nextpage.php:111 includes/class-admin-menu.php:17
+#: custom-nextpage.php:40 includes/class-admin-menu.php:19
 msgid "Previous page"
-msgstr "&laquo;前のページ"
+msgstr "&laquo; 前のページ"
 
-#: includes/class-admin-editor.php:59
+#: includes/class-admin-editor.php:58
 msgid "Title"
 msgstr "タイトル:"
 
-#: includes/class-admin-editor.php:68
+#: includes/class-admin-editor.php:67
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: includes/class-admin-menu.php:25
+#: includes/class-admin-menu.php:27
 msgid "Custom Nextpage"
 msgstr "カスタムネクストページ"
 
-#: includes/class-admin-menu.php:29
+#: includes/class-admin-menu.php:31
 msgid "Set Custom Nextpage"
 msgstr "Custom Nextpage 設定"
 
 #: includes/class-admin-menu.php:47
+msgid "General"
+msgstr "一般設定"
+
+#: includes/class-admin-menu.php:55
+msgid "Automatically replace the wp_link_pages."
+msgstr "自動で wp_link_pages を置き換える。"
+
+#: includes/class-admin-menu.php:67
 msgid "Before Text"
 msgstr "タイトルナビゲーションの前に入れるテキスト。"
 
-#: includes/class-admin-menu.php:48
+#: includes/class-admin-menu.php:78
 msgid "After Text"
 msgstr "タイトルナビゲーションの後ろに入れるテキスト。"
 
-#: includes/class-admin-menu.php:50
+#: includes/class-admin-menu.php:90
 msgid "Next Page Link Text"
 msgstr "次のページリンクのテキスト"
 
-#: includes/class-admin-menu.php:51
+#: includes/class-admin-menu.php:102
 msgid "Previous Page Link Text"
 msgstr "前のページリンクのテキスト"
 

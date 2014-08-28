@@ -47,7 +47,6 @@ class CustomNextPageEditor {
 		return $plugin_array;
 	}
 	function tiny_mce_version($version) {
-		var_dump($version);
 		return ++$version;
 	}
 	function editor_dialog() { ?>

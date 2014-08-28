@@ -5,7 +5,7 @@ tinymce.PluginManager.add('customnextpage', function(editor) {
 		if ( e.content ) {
 			if ( e.content.indexOf( '[nextpage' ) !== -1 ) {
 				url   = tinymce.PluginManager.urls.customnextpage;
-				image = '<img src="' + url + '/img/custom-next-page.png" class="custom-next-tag" alt="" data-mce-resize="false" data-mce-placeholder="1" />';
+				image = '<img src="' + url + '/img/custom-next-page.png" class="custom-next-tag" alt="" data-mce-resize="false" data-mce-placeholder="1" /><br>';
 				e.content = e.content.replace( /\[nextpage(.*?)\]/g, function( a ) {
 					if ( a.indexOf( 'title=' ) !== -1 ) {
 						title = a.match( /title="([^"]+)"/ );

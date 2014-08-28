@@ -8,14 +8,14 @@
 				author    : 'Webnist',
 				authorurl : 'http://profiles.wordpress.org/webnist',
 				infourl   : 'http://profiles.wordpress.org/webnist',
-				version   : '0.8'
+				version   : '0.9.1'
 			};
 		},
 
 		init : function( ed, url ) {
 			var t = this, inputs = {}, image, shortCode, selectedElm, nodeName, anchorElm;
 
-			image         = '<img src="' + url + '/img/custom-next-page.png" class="custom-next-tag mceItemNoResize" alt="" />';
+			image         = '<img src="' + url + '/img/custom-next-page.png" class="custom-next-tag mceItemNoResize" alt="" /><br>';
 			shortCode     = '[nextpage]';
 			inputs.dialog = $('#customnextpage-dialog');
 			inputs.submit = $('#customnextpage-submit');
@@ -36,7 +36,8 @@
 
 			ed.addButton( 'customnextpage', {
 				cmd   : 'customnextpage_cmd',
-				title : ed.getLang( 'customnextpage.buttonTitle', 'Custom Nextpage Shortcode' )
+				title : ed.getLang( 'customnextpage.buttonTitle', 'Custom Nextpage Shortcode' ),
+				image : url + '/img/custom-next-page-icon.png'
 			});
 
 			ed.addCommand( 'customnextpage_cmd', function() {

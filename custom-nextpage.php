@@ -5,7 +5,7 @@ Plugin Name: Custom Nextpage
 Plugin URI: http://wordpress.org/plugins/custom-nextpage/
 Description:
 Author: Webnist
-Version: 0.9.0
+Version: 0.9.1
 Author URI: http://profiles.wordpress.org/webnist
 */
 
@@ -22,7 +22,7 @@ if ( !class_exists('CustomNextPageEditor') )
 	require_once(dirname(__FILE__).'/includes/class-admin-editor.php');
 
 class CustomNextPage {
-	const VERSION = '0.9.0';
+	const VERSION = '0.9.1';
 	const TEXT_DOMAIN = 'custom-nextpage';
 
 	private $plugin_basename;
@@ -30,14 +30,20 @@ class CustomNextPage {
 	private $plugin_dir_url;
 
 	public function __construct() {
-		$this->plugin_basename = self::plugin_basename();
-		$this->plugin_dir_path = self::plugin_dir_path();
-		$this->plugin_dir_url  = self::plugin_dir_url();
+		$this->plugin_basename       = self::plugin_basename();
+		$this->plugin_dir_path       = self::plugin_dir_path();
+		$this->plugin_dir_url        = self::plugin_dir_url();
+		$this->filter                = get_option( 'custom-next-page-filter' );
+		$this->before_text           = get_option( 'custom-next-page-before-text' );
+		$this->after_text            = get_option( 'custom-next-page-after-text' );
+		$this->nextpagelink_text     = get_option( 'custom-next-page-nextpagelink', __( 'Next page', CustomNextPage::TEXT_DOMAIN ) );
+		$this->previouspagelink_text = get_option( 'custom-next-page-previouspagelink', __( 'Previous page', CustomNextPage::TEXT_DOMAIN ) );
 		load_plugin_textdomain( self::TEXT_DOMAIN, false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
 
 		if ( !is_admin() ) {
 			add_action( 'loop_start', array( &$this, 'change_nextpage' ) );
-			add_filter( 'wp_link_pages', array( &$this, 'wp_link_pages' ) );
+			if ( $this->filter )
+				add_filter( 'wp_link_pages', array( &$this, 'wp_link_pages' ) );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_scripts' ) );
 		}
 	}
@@ -90,8 +96,8 @@ class CustomNextPage {
 				$pattern = '/title=["?](.*)["?]/';
 				preg_match( $pattern, $page_title, $matches);
 				$title  = isset( $matches[1] ) ? esc_html( $matches[1] ) : '';
-				$before = apply_filters( 'custom_next_page_before', get_option( 'custom-next-page-before-text' ) );
-				$after  = apply_filters( 'custom_next_page_after', get_option( 'custom-next-page-after-text' ) );
+				$before = apply_filters( 'custom_next_page_before', $this->before_text );
+				$after  = apply_filters( 'custom_next_page_after', $this->after_text );
 				$output .= '<p class="custom-page-links">' ."\n";
 				if ( $page_count <= $numpages && $more ) {
 					$output .= _wp_link_page( $page_count );
@@ -103,12 +109,12 @@ class CustomNextPage {
 		return $output;
 	}
 
-	public function wp_link_pages( $output ) {
+	public function wp_link_pages( $output = '' ) {
 		global $page, $numpages, $multipage, $more, $pagenow;
 		$output = '';
 		if ( $multipage ) {
-			$nextpagelink     = apply_filters( 'custom-next-page-nextpagelink', get_option( 'custom-next-page-nextpagelink', __( 'Next page', self::TEXT_DOMAIN ) ) );
-			$previouspagelink = apply_filters( 'custom-next-page-previouspagelink', get_option( 'custom-next-page-previouspagelink', __( 'Previous page', self::TEXT_DOMAIN ) ) );
+			$nextpagelink     = apply_filters( 'custom-next-page-nextpagelink', $this->nextpagelink_text );
+			$previouspagelink = apply_filters( 'custom-next-page-previouspagelink', $this->previouspagelink_text );
 			$id               = get_the_id();
 			$next_page_title  = self::next_page_title( $id );
 
@@ -146,3 +152,8 @@ class CustomNextPage {
 new CustomNextPage();
 new CustomNextPageAdmin();
 new CustomNextPageEditor();
+
+function custom_next_page_link_pages() {
+	$custom_next_page = new CustomNextPage();
+	echo $custom_next_page->wp_link_pages();
+}
