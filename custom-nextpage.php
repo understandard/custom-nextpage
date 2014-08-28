@@ -5,7 +5,7 @@ Plugin Name: Custom Nextpage
 Plugin URI: http://wordpress.org/plugins/custom-nextpage/
 Description:
 Author: Webnist
-Version: 0.8.0
+Version: 0.9.0
 Author URI: http://profiles.wordpress.org/webnist
 */
 
@@ -22,7 +22,7 @@ if ( !class_exists('CustomNextPageEditor') )
 	require_once(dirname(__FILE__).'/includes/class-admin-editor.php');
 
 class CustomNextPage {
-	const VERSION = '0.8.0';
+	const VERSION = '0.9.0';
 	const TEXT_DOMAIN = 'custom-nextpage';
 
 	private $plugin_basename;

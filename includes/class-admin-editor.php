@@ -16,10 +16,12 @@ class CustomNextPageEditor {
 			add_filter( 'tiny_mce_version', array( &$this, 'tiny_mce_version' ) );
 			add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ) );
 			add_filter( 'mce_buttons_3', array( &$this, 'mce_buttons_3' ) );
-			if ( version_compare( $wp_version, '3.9', '<' ) )
+			if ( version_compare( $wp_version, '3.9', '<' ) ) {
 				add_action( 'admin_footer', array( &$this, 'editor_dialog' ) );
+			}
 		}
 	}
+
 	// Admin
 	function admin_print_scripts() {
 		wp_enqueue_style( 'admin-customnextpage', $this->plugin_dir_url . '/css/admin-customnextpage.css', array(), CustomNextPage::VERSION );
@@ -32,10 +34,9 @@ class CustomNextPageEditor {
 	function mce_external_plugins($plugin_array) {
 		global $wp_version;
 		if ( version_compare( $wp_version, '3.9', '>=' ) ) {
-			//$plugins_array['table'] = get_template_directory_uri() . '/tinymce4/plugins/table/plugin.min.js';
 			$plugin_array['customnextpage']  =  $this->plugin_dir_url . 'includes/tinymce/plugins/customnextpage/plugin.js';
 		} else {
-			$plugin_array['customnextpage']  =  $this->plugin_dir_url . 'includes/tinymce/plugins/customnextpage/editor_plugin.js';
+			$plugin_array['customnextpage']  =  $this->plugin_dir_url . 'includes/tinymce3/plugins/customnextpage/editor_plugin.js';
 		}
 		return $plugin_array;
 	}

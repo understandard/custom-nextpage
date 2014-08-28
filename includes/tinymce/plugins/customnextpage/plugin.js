@@ -47,7 +47,7 @@ tinymce.PluginManager.add('customnextpage', function(editor) {
 		}
 
 		win = editor.windowManager.open({
-			title : "Custom Nextpage Shortcode",
+			title : editor.getLang( 'customnextpage.popupTitle', 'Custom Nextpage Shortcode' ),
 			body  : [{
 				type  : 'textbox',
 				name  : 'title',
@@ -68,7 +68,7 @@ tinymce.PluginManager.add('customnextpage', function(editor) {
 
 	editor.addButton('customnextpage', {
 		icon             : 'customnextpage',
-		tooltip          : 'Custom Nextpage Shortcode',
+		tooltip          : editor.getLang( 'customnextpage.buttonTitle', 'Custom Nextpage Shortcode' ),
 		onclick          : showDialog,
 		context          : 'insert',
 		stateSelector    : 'img.custom-next-tag',
