@@ -1,120 +1,108 @@
 <?php
-class CustomNextPageAdmin {
-	const OPTION_PAGE  = 'custom-next-page';
-	const OPTION_GROUP = 'custom-next-page';
-
-	private $plugin_basename;
-	private $plugin_dir_path;
-	private $plugin_dir_url;
+class CustomNextPageAdmin extends CustomNextPageInit {
 
 	public function __construct() {
-		$this->plugin_basename       = CustomNextPage::plugin_basename();
-		$this->plugin_dir_path       = CustomNextPage::plugin_dir_path();
-		$this->plugin_dir_url        = CustomNextPage::plugin_dir_url();
-
-		$this->filter                = get_option( 'custom-next-page-filter' );
-		$this->before_text           = get_option( 'custom-next-page-before-text' );
-		$this->after_text            = get_option( 'custom-next-page-after-text' );
-		$this->nextpagelink_text     = get_option( 'custom-next-page-nextpagelink', __( 'Next page', CustomNextPage::TEXT_DOMAIN ) );
-		$this->previouspagelink_text = get_option( 'custom-next-page-previouspagelink', __( 'Previous page', CustomNextPage::TEXT_DOMAIN ) );
-		//$this->enabe_previous  = get_option( 'custom-next-page-enable-previous', 0 );
+		parent::__construct();
 
 		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
 		add_action( 'admin_init', array( &$this, 'add_general_custom_fields' ) );
 		add_filter( 'admin_init', array( &$this, 'add_custom_whitelist_options_fields' ) );
 	}
 	public function admin_menu() {
-		add_menu_page( __( 'Custom Nextpage', CustomNextPage::TEXT_DOMAIN ), __( 'Custom Nextpage', CustomNextPage::TEXT_DOMAIN ), 'create_users', self::OPTION_PAGE, array( &$this, 'add_admin_edit_page' ) );
+		add_options_page( __( 'Custom Nextpage', $this->domain ), __( 'Custom Nextpage', $this->domain ), 'create_users', $this->plugin_basename, array( &$this, 'add_admin_edit_page' ) );
 	}
 
 	public function add_admin_edit_page() {
-		$title = __( 'Set Custom Nextpage', CustomNextPage::TEXT_DOMAIN );
+		$title = __( 'Set Custom Nextpage', $this->domain );
 		echo '<div class="wrap">' . "\n";
 		screen_icon();
 		echo '<h2>' . esc_html( $title ) . '</h2>' . "\n";
 		echo '<form method="post" action="options.php">' . "\n";
-		settings_fields( self::OPTION_GROUP );
-		do_settings_sections( self::OPTION_PAGE );
+		settings_fields( $this->plugin_basename  );
+		do_settings_sections( $this->plugin_basename  );
 		submit_button();
+		if ( get_option( 'custom-next-page-previouspagelink' ) ) {
+			echo '<h2>' . esc_html__( 'Convert to new options', $this->domain ) . '</h2>' . "\n";
+			submit_button( __( 'Convert', $this->domain ), 'primary', 'convert' );
+		}
+		echo '<h2>' . esc_html__( 'Setting initialization', $this->domain ) . '</h2>' . "\n";
+		submit_button( __( 'Initialization', $this->domain ), 'primary', 'initialization' );
 		echo '</form>' . "\n";
 		echo '</div>' . "\n";
 	}
 
 	public function add_general_custom_fields() {
 		global $wp_version;
+
 		add_settings_section(
 			'general',
-			__( 'General', CustomNextPage::TEXT_DOMAIN ),
+			__( 'General', $this->domain ),
 			'',
-			self::OPTION_PAGE
+			$this->domain
 		);
-
 		if ( version_compare( $wp_version, '3.6', '>=' ) ) {
 			add_settings_field(
 				'custom-next-page-filter',
-				__( 'Automatically replace the wp_link_pages.', CustomNextPage::TEXT_DOMAIN ),
+				__( 'Automatically replace the wp_link_pages.', $this->domain ),
 				array( &$this, 'check_field' ),
-				self::OPTION_PAGE,
+				$this->plugin_basename ,
 				'general',
 				array(
-					'name'    => 'custom-next-page-filter',
-					'default' => $this->filter,
+					'name'  => 'custom-next-page[filter]',
+					'value' => $this->options['filter'],
 				)
 			);
 		}
 		add_settings_field(
 			'custom-next-page-before-text',
-			__( 'Before Text', CustomNextPage::TEXT_DOMAIN ),
+			__( 'Before Text', $this->domain ),
 			array( &$this, 'text_field' ),
-			self::OPTION_PAGE,
+			$this->plugin_basename ,
 			'general',
 			array(
-				'name'    => 'custom-next-page-before-text',
-				'default' => $this->before_text,
+				'name'  => 'custom-next-page[beforetext]',
+				'value' => $this->options['beforetext'],
 			)
 		);
 		add_settings_field(
 			'custom-next-page-after-text',
-			__( 'After Text', CustomNextPage::TEXT_DOMAIN ),
+			__( 'After Text', $this->domain ),
 			array( &$this, 'text_field' ),
-			self::OPTION_PAGE,
+			$this->plugin_basename ,
 			'general',
 			array(
-				'name'    => 'custom-next-page-after-text',
-				'default' => $this->after_text,
+				'name'  => 'custom-next-page[aftertext]',
+				'value' => $this->options['aftertext'],
 			)
 		);
 
 		add_settings_field(
 			'custom-next-page-nextpagelink',
-			__( 'Next Page Link Text', CustomNextPage::TEXT_DOMAIN ),
+			__( 'Text For Next Page', $this->domain ),
 			array( &$this, 'text_field' ),
-			self::OPTION_PAGE,
+			$this->plugin_basename ,
 			'general',
 			array(
-				'name'    => 'custom-next-page-nextpagelink',
-				'default' => $this->nextpagelink_text,
+				'name'  => 'custom-next-page[nextpagelink]',
+				'value' => $this->options['nextpagelink'],
 			)
 		);
 
 		add_settings_field(
 			'custom-next-page-previouspagelink',
-			__( 'Previous Page Link Text', CustomNextPage::TEXT_DOMAIN ),
+			__( 'Text For Previous Page', $this->domain ),
 			array( &$this, 'text_field' ),
-			self::OPTION_PAGE,
+			$this->plugin_basename ,
 			'general',
 			array(
-				'name'    => 'custom-next-page-previouspagelink',
-				'default' => $this->previouspagelink_text,
+				'name'  => 'custom-next-page[previouspagelink]',
+				'value' => $this->options['previouspagelink'],
 			)
 		);
 	}
 
 	public function text_field( $args ) {
 		extract( $args );
-		$default = ! empty( $default ) ? $default : '';
-		$value   = get_option( $name, $default );
-		$value   = ! empty( $value ) ? $value : $default;
 		$desc    = ! empty( $desc ) ? $desc : '';
 		$output  = '<input type="text" name="' . $name .'" id="' . $name .'" value="' . $value .'" />' . "\n";
 		if ( $desc )
@@ -125,9 +113,6 @@ class CustomNextPageAdmin {
 
 	public function textarea_field( $args ) {
 		extract( $args );
-		$default = ! empty( $default ) ? $default : '';
-		$value   = get_option( $name, $default );
-		$value   = ! empty( $value ) ? $value : $default;
 		$desc    = ! empty( $desc ) ? $desc : '';
 		$output  = '<textarea name="' . $name .'" rows="10" cols="50" id="' . $name .'" class="large-text code">' . $value . '</textarea>' . "\n";
 		if ( $desc )
@@ -137,9 +122,6 @@ class CustomNextPageAdmin {
 
 	public function check_field( $args ) {
 		extract( $args );
-		$default = ! empty( $default ) ? $default : '';
-		$value   = get_option( $name, $default );
-		$value   = ! empty( $value ) ? $value : $default;
 		$desc    = ! empty( $desc ) ? $desc : '';
 		$output  = '<label for="' . $name . '">' . "\n";
 		$output  .= '<input name="' . $name . '" type="checkbox" id="' . $name . '" value="1"' . checked( $value, 1, false ) . '>' . "\n";
@@ -151,12 +133,42 @@ class CustomNextPageAdmin {
 	}
 
 	public function add_custom_whitelist_options_fields() {
-		register_setting( self::OPTION_PAGE, 'custom-next-page-filter' );
-		register_setting( self::OPTION_PAGE, 'custom-next-page-before-text' );
-		register_setting( self::OPTION_PAGE, 'custom-next-page-after-text' );
-		register_setting( self::OPTION_PAGE, 'custom-next-page-nextpagelink' );
-		register_setting( self::OPTION_PAGE, 'custom-next-page-previouspagelink' );
-		//register_setting( self::OPTION_PAGE, 'custom-next-page-enable-previous' );
+		register_setting( $this->plugin_basename , 'custom-next-page', array( &$this, 'register_setting_check' ) );
+		register_setting( $this->plugin_basename , 'convert', array( &$this, 'register_setting_convert' ) );
+		register_setting( $this->plugin_basename , 'initialization', array( &$this, 'register_setting_initialization' ) );
+	}
+
+	public function register_setting_check( $value ) {
+		$value['filter'] = (int) $value['filter'];
+		return $value;
+	}
+
+	public function register_setting_convert( $value ) {
+		if ( __( 'Convert', $this->domain ) != $value )
+			return $value;
+
+		$convert_options                     = get_option( 'custom-next-page' );
+		$convert_options['filter']           = get_option( 'custom-next-page-filter' );
+		$convert_options['before-text']      = get_option( 'custom-next-page-before-text' );
+		$convert_options['after-text']       = get_option( 'custom-next-page-after-text' );
+		$convert_options['nextpagelink']     = get_option( 'custom-next-page-nextpagelink', __( '&#187;', $this->domain ) );
+		$convert_options['previouspagelink'] = get_option( 'custom-next-page-previouspagelink', __( '&#171;', $this->domain ) );
+		update_option( 'custom-next-page', $convert_options );
+		delete_option( 'custom-next-page-filter' );
+		delete_option( 'custom-next-page-before-text' );
+		delete_option( 'custom-next-page-after-text' );
+		delete_option( 'custom-next-page-nextpagelink' );
+		delete_option( 'custom-next-page-previouspagelink' );
+		return $value;
+	}
+
+	public function register_setting_initialization( $value ) {
+		if ( __( 'Initialization', $this->domain ) != $value )
+			return $value;
+
+		delete_option( 'custom-next-page' );
+		update_option( 'custom-next-page', $this->default_options );
+		return $value;
 	}
 
 }

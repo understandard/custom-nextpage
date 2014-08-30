@@ -1,12 +1,14 @@
 <?php
-
 /*
 Plugin Name: Custom Nextpage
 Plugin URI: http://wordpress.org/plugins/custom-nextpage/
-Description:
+Description: MultiPage is a customizable plugin. Can any title on the page.
 Author: Webnist
-Version: 0.9.1
+Version: 0.9.5
 Author URI: http://profiles.wordpress.org/webnist
+License: GPLv2 or later
+Text Domain: custom-nextpage
+Domain Path: /languages/
 */
 
 if ( !defined( 'CUSTOM_NEXTPAGE_DIR' ) )
@@ -21,48 +23,53 @@ if ( !class_exists('CustomNextPageAdmin') )
 if ( !class_exists('CustomNextPageEditor') )
 	require_once(dirname(__FILE__).'/includes/class-admin-editor.php');
 
-class CustomNextPage {
-	const VERSION = '0.9.1';
-	const TEXT_DOMAIN = 'custom-nextpage';
-
-	private $plugin_basename;
-	private $plugin_dir_path;
-	private $plugin_dir_url;
+class CustomNextPageInit {
 
 	public function __construct() {
-		$this->plugin_basename       = self::plugin_basename();
-		$this->plugin_dir_path       = self::plugin_dir_path();
-		$this->plugin_dir_url        = self::plugin_dir_url();
-		$this->filter                = get_option( 'custom-next-page-filter' );
-		$this->before_text           = get_option( 'custom-next-page-before-text' );
-		$this->after_text            = get_option( 'custom-next-page-after-text' );
-		$this->nextpagelink_text     = get_option( 'custom-next-page-nextpagelink', __( 'Next page', CustomNextPage::TEXT_DOMAIN ) );
-		$this->previouspagelink_text = get_option( 'custom-next-page-previouspagelink', __( 'Previous page', CustomNextPage::TEXT_DOMAIN ) );
-		load_plugin_textdomain( self::TEXT_DOMAIN, false, dirname( plugin_basename(__FILE__) ) . '/languages/' );
+		$data                  = get_file_data(
+			__FILE__,
+			array(
+				'ver'    => 'Version',
+				'domain' => 'Text Domain',
+				'langs'  => 'Domain Path'
+			)
+		);
+
+		$this->plugin_basename = dirname( plugin_basename(__FILE__) );
+		$this->version         = $data['ver'];
+		$this->domain          = $data['domain'];
+		$this->langs           = $data['langs'];
+		$this->default_options = array(
+			'filter'           => '',
+			'beforetext'       => '',
+			'aftertext'        => '',
+			'nextpagelink'     => __( '&#187;', 'custom-nextpage' ),
+			'previouspagelink' => __( '&#171;', 'custom-nextpage' ),
+		);
+		$this->options         = get_option( 'custom-next-page', $this->default_options );
+	}
+}
+
+class CustomNextPage extends CustomNextPageInit {
+
+	public function __construct() {
+		parent::__construct();
 
 		if ( !is_admin() ) {
 			add_action( 'loop_start', array( &$this, 'change_nextpage' ) );
-			if ( $this->filter )
+			if ( $this->options['filter'] === 1 )
 				add_filter( 'wp_link_pages', array( &$this, 'wp_link_pages' ) );
 			add_action( 'wp_enqueue_scripts', array( &$this, 'wp_enqueue_scripts' ) );
 		}
+		add_shortcode( 'nextpage', array( &$this, 'shortcode' ) );
+		load_plugin_textdomain( $this->domain, false, $this->plugin_basename . $this->langs );
 	}
 
-	static public function plugin_basename() {
-		return plugin_basename(__FILE__);
-	}
-
-	static public function plugin_dir_path() {
-		return plugin_dir_path( self::plugin_basename() );
-	}
-
-	static public function plugin_dir_url() {
-		return plugin_dir_url( self::plugin_basename() );
+	public function plugins_loaded() {
 	}
 
 	public function change_nextpage( $query ) {
-		// no need to process
-		if ( is_feed() || is_404() || !in_the_loop() )
+		if ( is_feed() || is_404() )
 			return;
 
 		$posts = $query->posts;
@@ -74,11 +81,10 @@ class CustomNextPage {
 			$count++;
 		}
 		return $query;
-
 	}
 
 	public function next_page_title( $id = '' ) {
-		global $page, $numpages, $multipage, $more;
+		global $page, $numpages, $multipage;
 
 		if ( !$id )
 			$id = get_the_id();
@@ -96,10 +102,10 @@ class CustomNextPage {
 				$pattern = '/title=["?](.*)["?]/';
 				preg_match( $pattern, $page_title, $matches);
 				$title  = isset( $matches[1] ) ? esc_html( $matches[1] ) : '';
-				$before = apply_filters( 'custom_next_page_before', $this->before_text );
-				$after  = apply_filters( 'custom_next_page_after', $this->after_text );
+				$before = apply_filters( 'custom_next_page_beforetext', $this->options['beforetext'] );
+				$after  = apply_filters( 'custom_next_page_aftertext', $this->options['aftertext'] );
 				$output .= '<p class="custom-page-links">' ."\n";
-				if ( $page_count <= $numpages && $more ) {
+				if ( $page_count <= $numpages ) {
 					$output .= _wp_link_page( $page_count );
 					$output .= $before . $title . $after . '</a>';
 				}
@@ -110,29 +116,29 @@ class CustomNextPage {
 	}
 
 	public function wp_link_pages( $output = '' ) {
-		global $page, $numpages, $multipage, $more, $pagenow;
+		global $page, $numpages, $multipage, $pagenow;
 		$output = '';
 		if ( $multipage ) {
-			$nextpagelink     = apply_filters( 'custom-next-page-nextpagelink', $this->nextpagelink_text );
-			$previouspagelink = apply_filters( 'custom-next-page-previouspagelink', $this->previouspagelink_text );
-			$id               = get_the_id();
+			$nextpagelink     = apply_filters( 'custom_next_page_nextpagelink', $this->options['nextpagelink'] );
+			$previouspagelink = apply_filters( 'custom_next_page_previouspagelink', $this->options['previouspagelink'] );
+			$id               = get_the_ID();
 			$next_page_title  = self::next_page_title( $id );
 
 			$output .= '<div class="page-link-box">' ."\n";
 			$output .= $next_page_title;
 			$output .= '<ul class="page-link">' ."\n";
 			$i = $page - 1;
-			if ( $page > 1 && $more ) {
+			if ( $page > 1 ) {
 				$link = _wp_link_page( $i );
 				$output .= '<li class="previous">' . $link . $previouspagelink . '</a></li>';
 			}
 			for ( $i = 1; $i <= $numpages; $i++ ) {
 				$class = ( $page === $i ) ? ' current': '';
-				$link = '<li class="numpages'. $class . '">' . _wp_link_page( $i ) . $i . '</a></li>';
+				$link  = '<li class="numpages'. $class . '">' . _wp_link_page( $i ) . $i . '</a></li>';
 				$output .= $link;
 			}
 			$i = $page + 1;
-			if ( $i <= $numpages && $more ) {
+			if ( $i <= $numpages ) {
 				$link = _wp_link_page( $i );
 				$output .= '<li class="next">' . $link . $nextpagelink . '</a></li>';
 			}
@@ -143,12 +149,14 @@ class CustomNextPage {
 	}
 
 	public function wp_enqueue_scripts() {
-		if ( is_singular() ) {
-			wp_enqueue_style( 'custom-nextpage-style', CUSTOM_NEXTPAGE_URL . '/css/custom-nextpage-style.css', array(), filemtime( CUSTOM_NEXTPAGE_DIR . '/css/custom-nextpage-style.css' ) );
-		}
+		wp_enqueue_style( 'custom-nextpage-style', CUSTOM_NEXTPAGE_URL . '/css/custom-nextpage-style.css', array(), $this->version );
+	}
+	public function shortcode() {
+		return;
 	}
 }
 
+new CustomNextPageInit();
 new CustomNextPage();
 new CustomNextPageAdmin();
 new CustomNextPageEditor();
