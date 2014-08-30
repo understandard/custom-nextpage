@@ -15,6 +15,7 @@ class CustomNextPageEditor extends CustomNextPageInit {
 			if ( version_compare( $wp_version, '3.9', '<' ) ) {
 				add_action( 'admin_footer', array( &$this, 'editor_dialog' ) );
 			}
+			add_action( 'admin_enqueue_scripts', array( &$this, 'quicktags' ) );
 		}
 	}
 
@@ -65,4 +66,14 @@ class CustomNextPageEditor extends CustomNextPageInit {
 			</form>
 		</div>
 	<?php }
+	// add more buttons to the html editor
+	function quicktags() {
+		if ( wp_script_is( 'quicktags' ) ) {
+			wp_enqueue_script( 'custom-nextpage-quicktags', CUSTOM_NEXTPAGE_URL . '/js/quicktags.js', array('quicktags'), $this->version, true );
+ ?>
+			<script type="text/javascript">
+				QTags.addButton( 'custom_nextpage', 'Custom Nextpage', '[nextpage]', '', '', 'Custom Nextpage', 9999 );
+			</script>
+		<?php }
+	}
 }

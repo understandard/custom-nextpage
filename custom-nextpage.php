@@ -4,7 +4,7 @@ Plugin Name: Custom Nextpage
 Plugin URI: http://wordpress.org/plugins/custom-nextpage/
 Description: MultiPage is a customizable plugin. Can any title on the page.
 Author: Webnist
-Version: 0.9.5
+Version: 0.9.6
 Author URI: http://profiles.wordpress.org/webnist
 License: GPLv2 or later
 Text Domain: custom-nextpage
