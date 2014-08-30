@@ -3,7 +3,7 @@ Contributors: Webnist
 Tags: nextpage multipage
 Requires at least: 3.6
 Tested up to: 4.0
-Stable tag: 0.9.5
+Stable tag: 0.9.6
 License: GPLv2 or later
 
 MultiPage is a customizable plugin
