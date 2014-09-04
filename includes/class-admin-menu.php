@@ -23,10 +23,10 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 		submit_button();
 		if ( get_option( 'custom-next-page-previouspagelink' ) ) {
 			echo '<h2>' . esc_html__( 'Convert to new options', $this->domain ) . '</h2>' . "\n";
-			submit_button( __( 'Convert', $this->domain ), 'primary', 'convert' );
+			submit_button( __( 'Convert', $this->domain ), 'primary', 'custom-next-page-convert' );
 		}
 		echo '<h2>' . esc_html__( 'Setting initialization', $this->domain ) . '</h2>' . "\n";
-		submit_button( __( 'Initialization', $this->domain ), 'primary', 'initialization' );
+		submit_button( __( 'Initialization', $this->domain ), 'primary', 'custom-next-page-initialization' );
 		echo '</form>' . "\n";
 		echo '</div>' . "\n";
 	}
@@ -134,8 +134,8 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 
 	public function add_custom_whitelist_options_fields() {
 		register_setting( $this->plugin_basename , 'custom-next-page', array( &$this, 'register_setting_check' ) );
-		register_setting( $this->plugin_basename , 'convert', array( &$this, 'register_setting_convert' ) );
-		register_setting( $this->plugin_basename , 'initialization', array( &$this, 'register_setting_initialization' ) );
+		register_setting( $this->plugin_basename , 'custom-next-page-convert', array( &$this, 'register_setting_convert' ) );
+		register_setting( $this->plugin_basename , 'custom-next-page-initialization', array( &$this, 'register_setting_initialization' ) );
 	}
 
 	public function register_setting_check( $value ) {
