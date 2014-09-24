@@ -77,6 +77,54 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 		);
 
 		add_settings_field(
+			'custom-next-page-boundary',
+			__( 'The first and last page links displayed.', $this->domain ),
+			array( &$this, 'check_field' ),
+			$this->plugin_basename ,
+			'general',
+			array(
+				'name'  => 'custom-next-page[show_boundary]',
+				'value' => $this->options['show_boundary'],
+			)
+		);
+
+		add_settings_field(
+			'custom-next-page-adjacent',
+			__( 'Next and previous page links to display.', $this->domain ),
+			array( &$this, 'check_field' ),
+			$this->plugin_basename ,
+			'general',
+			array(
+				'name'  => 'custom-next-page[show_adjacent]',
+				'value' => $this->options['show_adjacent'],
+			)
+		);
+
+		add_settings_field(
+			'custom-next-page-firstpagelink',
+			__( 'Text For First Page', $this->domain ),
+			array( &$this, 'text_field' ),
+			$this->plugin_basename ,
+			'general',
+			array(
+				'name'  => 'custom-next-page[firstpagelink]',
+				'value' => $this->options['firstpagelink'],
+			)
+		);
+
+		add_settings_field(
+			'custom-next-page-lastpagelink',
+			__( 'Text For Last Page', $this->domain ),
+			array( &$this, 'text_field' ),
+			$this->plugin_basename ,
+			'general',
+			array(
+				'name'  => 'custom-next-page[lastpagelink]',
+				'value' => $this->options['lastpagelink'],
+			)
+		);
+
+		add_settings_field(
 			'custom-next-page-nextpagelink',
 			__( 'Text For Next Page', $this->domain ),
 			array( &$this, 'text_field' ),
@@ -157,6 +205,8 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 		delete_option( 'custom-next-page-filter' );
 		delete_option( 'custom-next-page-before-text' );
 		delete_option( 'custom-next-page-after-text' );
+		delete_option( 'custom-next-page-firstpagelink' );
+		delete_option( 'custom-next-page-lastpagelink' );
 		delete_option( 'custom-next-page-nextpagelink' );
 		delete_option( 'custom-next-page-previouspagelink' );
 		return $value;

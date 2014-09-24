@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Custom Nextpage package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Custom Nextpage 0.9.1\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/custom-nextpage\n"
-"POT-Creation-Date: 2014-08-30 08:18:29+00:00\n"
+"Project-Id-Version: Custom Nextpage 0.9.8\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/custom-nextpage\n"
+"POT-Creation-Date: 2014-09-24 07:05:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,27 +12,35 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: custom-nextpage.php:46 includes/class-admin-menu.php:157
-msgid "&#187;"
-msgstr ""
-
-#: custom-nextpage.php:47 includes/class-admin-menu.php:158
+#: custom-nextpage.php:48 includes/class-admin-menu.php:203
 msgid "&#171;"
 msgstr ""
 
-#: includes/class-admin-editor.php:52
+#: custom-nextpage.php:49 includes/class-admin-menu.php:202
+msgid "&#187;"
+msgstr ""
+
+#: custom-nextpage.php:50
+msgid "&gt;"
+msgstr ""
+
+#: custom-nextpage.php:51
+msgid "&lt;"
+msgstr ""
+
+#: includes/class-admin-editor.php:54
 msgid "Title:"
 msgstr ""
 
-#: includes/class-admin-editor.php:58
+#: includes/class-admin-editor.php:60
 msgid "OK"
 msgstr ""
 
-#: includes/class-admin-editor.php:61
+#: includes/class-admin-editor.php:63
 msgid "Cancel"
 msgstr ""
 
-#. #-#-#-#-#  custom-nextpage.pot (Custom Nextpage 0.9.1)  #-#-#-#-#
+#. #-#-#-#-#  custom-nextpage.pot (Custom Nextpage 0.9.8)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: includes/class-admin-menu.php:12
 msgid "Custom Nextpage"
@@ -46,7 +54,7 @@ msgstr ""
 msgid "Convert to new options"
 msgstr ""
 
-#: includes/class-admin-menu.php:26 includes/class-admin-menu.php:150
+#: includes/class-admin-menu.php:26 includes/class-admin-menu.php:195
 msgid "Convert"
 msgstr ""
 
@@ -54,7 +62,7 @@ msgstr ""
 msgid "Setting initialization"
 msgstr ""
 
-#: includes/class-admin-menu.php:29 includes/class-admin-menu.php:169
+#: includes/class-admin-menu.php:29 includes/class-admin-menu.php:216
 msgid "Initialization"
 msgstr ""
 
@@ -75,10 +83,26 @@ msgid "After Text"
 msgstr ""
 
 #: includes/class-admin-menu.php:81
-msgid "Text For Next Page"
+msgid "The first and last page links displayed."
 msgstr ""
 
 #: includes/class-admin-menu.php:93
+msgid "Next and previous page links to display."
+msgstr ""
+
+#: includes/class-admin-menu.php:105
+msgid "Text For First Page"
+msgstr ""
+
+#: includes/class-admin-menu.php:117
+msgid "Text For Last Page"
+msgstr ""
+
+#: includes/class-admin-menu.php:129
+msgid "Text For Next Page"
+msgstr ""
+
+#: includes/class-admin-menu.php:141
 msgid "Text For Previous Page"
 msgstr ""
 

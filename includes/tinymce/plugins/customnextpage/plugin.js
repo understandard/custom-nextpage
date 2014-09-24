@@ -14,6 +14,10 @@ tinymce.PluginManager.add('customnextpage', function(editor) {
 					return image;
 				});
 			}
+			if ( e.content.indexOf( '<a' ) !== -1 ) {
+				return '';
+			}
+
 		}
 	});
 

@@ -4,7 +4,7 @@ Plugin Name: Custom Nextpage
 Plugin URI: http://wordpress.org/plugins/custom-nextpage/
 Description: MultiPage is a customizable plugin. Can any title on the page.
 Author: Webnist
-Version: 0.9.7
+Version: 0.9.9
 Author URI: http://profiles.wordpress.org/webnist
 License: GPLv2 or later
 Text Domain: custom-nextpage
@@ -43,8 +43,12 @@ class CustomNextPageInit {
 			'filter'           => '',
 			'beforetext'       => '',
 			'aftertext'        => '',
-			'nextpagelink'     => __( '&#187;', 'custom-nextpage' ),
-			'previouspagelink' => __( '&#171;', 'custom-nextpage' ),
+			'show_boundary'    => 1,
+			'show_adjacent'    => 1,
+			'firstpagelink'    => __( '&#171;', 'custom-nextpage' ),
+			'lastpagelink'     => __( '&#187;', 'custom-nextpage' ),
+			'nextpagelink'     => __( '&gt;', 'custom-nextpage' ),
+			'previouspagelink' => __( '&lt;', 'custom-nextpage' ),
 		);
 		$this->options         = get_option( 'custom-next-page', $this->default_options );
 	}
@@ -119,28 +123,45 @@ class CustomNextPage extends CustomNextPageInit {
 		global $page, $numpages, $multipage, $pagenow;
 		$output = '';
 		if ( $multipage ) {
-			$nextpagelink     = apply_filters( 'custom_next_page_nextpagelink', $this->options['nextpagelink'] );
-			$previouspagelink = apply_filters( 'custom_next_page_previouspagelink', $this->options['previouspagelink'] );
+			$show_boundary     = esc_html( apply_filters( 'custom_next_page_show_boundary', $this->options['show_boundary'] ) );
+			$show_adjacent     = esc_html( apply_filters( 'custom_next_page_show_adjacent', $this->options['show_adjacent'] ) );
+			$firstpagelink     = esc_html( apply_filters( 'custom_next_page_firstpagelink', $this->options['firstpagelink'] ) );
+			$lastpagelink     = esc_html( apply_filters( 'custom_next_page_lastpagelink', $this->options['lastpagelink'] ) );
+			$nextpagelink     = esc_html( apply_filters( 'custom_next_page_nextpagelink', $this->options['nextpagelink'] ) );
+			$previouspagelink = esc_html( apply_filters( 'custom_next_page_previouspagelink', $this->options['previouspagelink'] ) );
 			$id               = get_the_ID();
 			$next_page_title  = self::next_page_title( $id );
 
 			$output .= '<div class="page-link-box">' ."\n";
 			$output .= $next_page_title;
-			$output .= '<ul class="page-link">' ."\n";
+			$output .= '<ul class="page-links">' ."\n";
 			$i = $page - 1;
+
 			if ( $page > 1 ) {
-				$link = _wp_link_page( $i );
-				$output .= '<li class="previous">' . $link . $previouspagelink . '</a></li>';
+				$first_link = _wp_link_page( 1 );
+				$link       = _wp_link_page( $i );
+				if ( $show_boundary )
+					$output .= '<li class="first">' . $first_link . $firstpagelink . '</a></li>';
+				if ( $show_adjacent )
+					$output .= '<li class="previous">' . $link . $previouspagelink . '</a></li>';
 			}
 			for ( $i = 1; $i <= $numpages; $i++ ) {
-				$class = ( $page === $i ) ? ' current': '';
-				$link  = '<li class="numpages'. $class . '">' . _wp_link_page( $i ) . $i . '</a></li>';
+				if ( $page === $i ) {
+					$link  = '<li class="numpages current"><span>' . $i . '</span></li>';
+				} else {
+					$link  = '<li class="numpages">' . _wp_link_page( $i ) . $i . '</a></li>';
+				}
 				$output .= $link;
 			}
 			$i = $page + 1;
 			if ( $i <= $numpages ) {
-				$link = _wp_link_page( $i );
-				$output .= '<li class="next">' . $link . $nextpagelink . '</a></li>';
+				$last_link = _wp_link_page( $numpages );
+				$link      = _wp_link_page( $i );
+				if ( $show_adjacent )
+					$output .= '<li class="next">' . $last_link . $nextpagelink . '</a></li>';
+
+				if ( $show_boundary )
+					$output .= '<li class="last">' . $link . $lastpagelink . '</a></li>';
 			}
 			$output .= '</ul>' ."\n";
 			$output .= '</div>' ."\n";
