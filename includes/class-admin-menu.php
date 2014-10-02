@@ -178,7 +178,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 
 		add_settings_field(
 			'custom-next-page-style-type',
-			__( 'Style Edit', $this->domain ),
+			__( 'Select Style type', $this->domain ),
 			array( &$this, 'select_field' ),
 			$this->plugin_basename ,
 			'style',
