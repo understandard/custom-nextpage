@@ -3,7 +3,7 @@ Contributors: Webnist
 Tags: nextpage multipage
 Requires at least: 3.6
 Tested up to: 4.0
-Stable tag: 0.9.8
+Version: 1.0.0
 License: GPLv2 or later
 
 MultiPage is a customizable plugin
@@ -13,9 +13,9 @@ MultiPage is a customizable plugin.
 Can any title on the page.
 
 == Installation ==
-A plug-in installation screen is displayed on the WordPress admin panel.  
-It installs it in `wp-content/plugins`.  
-The plug-in is made effective.  
+A plug-in installation screen is displayed on the WordPress admin panel.
+It installs it in `wp-content/plugins`.
+The plug-in is made effective.
 Open \'Settings\' -> \'Custom Nextpage\' menu.
 
 == Screenshots ==
@@ -30,6 +30,12 @@ Automatically replace the wp_link_pages. To check?
 Or the  Please insert a template.
 
 == Changelog ==
+= 1.0.0 =
+Add CSS Edit
+
+= 0.9.10 =
+Fix
+
 = 0.9.9 =
 Add First page link
 Add Last page link

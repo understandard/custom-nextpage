@@ -1,0 +1,14 @@
+@charset "UTF-8";
+.CodeMirror {
+	width: 100%;
+	height: auto;
+	border: 1px solid #ddd;
+}
+.CodeMirror-scroll {
+	min-height: 200px;
+	max-height: 300px;
+}
+.CodeMirror pre {
+	padding-left: 7px;
+	line-height: 1.25;
+}

@@ -5,21 +5,41 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 		parent::__construct();
 
 		add_action( 'admin_menu', array( &$this, 'admin_menu' ) );
+		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_init', array( &$this, 'add_general_custom_fields' ) );
 		add_filter( 'admin_init', array( &$this, 'add_custom_whitelist_options_fields' ) );
 	}
+
 	public function admin_menu() {
 		add_options_page( __( 'Custom Nextpage', $this->domain ), __( 'Custom Nextpage', $this->domain ), 'create_users', $this->plugin_basename, array( &$this, 'add_admin_edit_page' ) );
 	}
 
+	public function admin_enqueue_scripts( $hook ) {
+
+		if ( stristr( $hook, $this->plugin_basename ) ) {
+			wp_enqueue_style( 'options-customnextpage', CUSTOM_NEXTPAGE_URL . '/css/options.css', array(), $this->version );
+			wp_enqueue_style( 'codemirror', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/lib/codemirror.css', array(), $this->version );
+			wp_enqueue_style( 'codemirror-show-hint', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/addon/hint/show-hint.css', array(), $this->version );
+			wp_enqueue_style( 'codemirror-style', CUSTOM_NEXTPAGE_URL . '/css/codemirror-style.css', array(), $this->version );
+
+			wp_enqueue_script( 'options-customnextpage', CUSTOM_NEXTPAGE_URL . '/js/options.js', array('jquery'), $this->version, true );
+			wp_enqueue_script( 'codemirror', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/lib/codemirror.js', array(), $this->version, true );
+			wp_enqueue_script( 'codemirror-show-hint', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/addon/hint/show-hint.js', array('codemirror'), $this->version, true );
+			wp_enqueue_script( 'codemirror-css-hint', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/addon/hint/css-hint.js', array('codemirror'), $this->version, true );
+			wp_enqueue_script( 'codemirror-mode-css', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/mode/css/css.js', array('codemirror'), $this->version, true );
+			wp_enqueue_script( 'codemirror-conf', CUSTOM_NEXTPAGE_URL . '/js/codemirror-conf.js', array('codemirror', 'codemirror-mode-css'), $this->version, true );
+		}
+	}
+
 	public function add_admin_edit_page() {
 		$title = __( 'Set Custom Nextpage', $this->domain );
-		echo '<div class="wrap">' . "\n";
+		echo '<div class="wrap" id="custom-next-page-options">' . "\n";
 		screen_icon();
 		echo '<h2>' . esc_html( $title ) . '</h2>' . "\n";
 		echo '<form method="post" action="options.php">' . "\n";
 		settings_fields( $this->plugin_basename  );
 		do_settings_sections( $this->plugin_basename  );
+		echo '<div class="submit">' . "\n";
 		submit_button();
 		if ( get_option( 'custom-next-page-previouspagelink' ) ) {
 			echo '<h2>' . esc_html__( 'Convert to new options', $this->domain ) . '</h2>' . "\n";
@@ -27,6 +47,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 		}
 		echo '<h2>' . esc_html__( 'Setting initialization', $this->domain ) . '</h2>' . "\n";
 		submit_button( __( 'Initialization', $this->domain ), 'primary', 'custom-next-page-initialization' );
+		echo '</div>' . "\n";
 		echo '</form>' . "\n";
 		echo '</div>' . "\n";
 	}
@@ -49,7 +70,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 				'general',
 				array(
 					'name'  => 'custom-next-page[filter]',
-					'value' => $this->options['filter'],
+					'value' => $this->filter,
 				)
 			);
 		}
@@ -61,7 +82,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			'general',
 			array(
 				'name'  => 'custom-next-page[beforetext]',
-				'value' => $this->options['beforetext'],
+				'value' => $this->beforetext,
 			)
 		);
 		add_settings_field(
@@ -72,7 +93,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			'general',
 			array(
 				'name'  => 'custom-next-page[aftertext]',
-				'value' => $this->options['aftertext'],
+				'value' => $this->aftertext,
 			)
 		);
 
@@ -84,7 +105,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			'general',
 			array(
 				'name'  => 'custom-next-page[show_boundary]',
-				'value' => $this->options['show_boundary'],
+				'value' => $this->show_boundary,
 			)
 		);
 
@@ -96,7 +117,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			'general',
 			array(
 				'name'  => 'custom-next-page[show_adjacent]',
-				'value' => $this->options['show_adjacent'],
+				'value' => $this->show_adjacent,
 			)
 		);
 
@@ -108,7 +129,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			'general',
 			array(
 				'name'  => 'custom-next-page[firstpagelink]',
-				'value' => $this->options['firstpagelink'],
+				'value' => $this->firstpagelink,
 			)
 		);
 
@@ -120,7 +141,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			'general',
 			array(
 				'name'  => 'custom-next-page[lastpagelink]',
-				'value' => $this->options['lastpagelink'],
+				'value' => $this->lastpagelink,
 			)
 		);
 
@@ -132,7 +153,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			'general',
 			array(
 				'name'  => 'custom-next-page[nextpagelink]',
-				'value' => $this->options['nextpagelink'],
+				'value' => $this->nextpagelink,
 			)
 		);
 
@@ -144,15 +165,53 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			'general',
 			array(
 				'name'  => 'custom-next-page[previouspagelink]',
-				'value' => $this->options['previouspagelink'],
+				'value' => $this->previouspagelink,
+			)
+		);
+
+		add_settings_section(
+			'style',
+			__( 'Style', $this->domain ),
+			'',
+			$this->domain
+		);
+
+		add_settings_field(
+			'custom-next-page-style-type',
+			__( 'Style Edit', $this->domain ),
+			array( &$this, 'select_field' ),
+			$this->plugin_basename ,
+			'style',
+			array(
+				'name'   => 'custom-next-page[styletype]',
+				'option' => array(
+					'0'  => __( 'Default', $this->domain),
+					'1'  => __( 'Style Edit', $this->domain),
+					'2'  => __( 'Disable', $this->domain),
+				),
+				'id'    => 'styletype',
+				'value'  => $this->styletype,
+			)
+		);
+		add_settings_field(
+			'custom-next-page-style',
+			__( 'Style Edit', $this->domain ),
+			array( &$this, 'textarea_field' ),
+			$this->plugin_basename ,
+			'style',
+			array(
+				'name'  => 'custom-next-page[style]',
+				'value' => $this->style,
 			)
 		);
 	}
 
 	public function text_field( $args ) {
 		extract( $args );
+
+		$id      = ! empty( $id ) ? $id : $name;
 		$desc    = ! empty( $desc ) ? $desc : '';
-		$output  = '<input type="text" name="' . $name .'" id="' . $name .'" value="' . $value .'" />' . "\n";
+		$output  = '<input type="text" name="' . $name .'" id="' . $name .'" class="regular-text" value="' . $value .'" />' . "\n";
 		if ( $desc )
 			$output .= '<p class="description">' . $desc . '</p>' . "\n";
 
@@ -161,6 +220,8 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 
 	public function textarea_field( $args ) {
 		extract( $args );
+
+		$id      = ! empty( $id ) ? $id : $name;
 		$desc    = ! empty( $desc ) ? $desc : '';
 		$output  = '<textarea name="' . $name .'" rows="10" cols="50" id="' . $name .'" class="large-text code">' . $value . '</textarea>' . "\n";
 		if ( $desc )
@@ -170,6 +231,8 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 
 	public function check_field( $args ) {
 		extract( $args );
+
+		$id      = ! empty( $id ) ? $id : $name;
 		$desc    = ! empty( $desc ) ? $desc : '';
 		$output  = '<label for="' . $name . '">' . "\n";
 		$output  .= '<input name="' . $name . '" type="checkbox" id="' . $name . '" value="1"' . checked( $value, 1, false ) . '>' . "\n";
@@ -180,6 +243,35 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 		echo $output;
 	}
 
+	public function select_field( $args ) {
+		extract( $args );
+
+		$id             = ! empty( $id ) ? $id : $name;
+		$desc           = ! empty( $desc ) ? $desc : '';
+		$multi          = ! empty( $multi ) ? ' multiple' : '';
+		$multi_selected = ! empty( $multi ) ? true : false;
+		$output = '<select name="' . $name . '" id="' . $id . '"' . $multi . '>' . "\n";
+			foreach ( $option as $key => $val ) {
+				$output .= '<option value="' . $key . '"' . selected( $value, $key, $multi_selected ) . '>' . $val . '</option>' . "\n";
+			}
+		$output .= '</select>' . "\n";
+			if ( $desc )
+			$output .= $desc . "\n";
+
+		echo $output;
+	}
+
+	public function selected( $value = '', $val = '', $multi = false ) {
+		$select = '';
+		if ( $multi ) {
+
+			$select = selected( true, in_array( $val, $value ), false );
+		} else {
+			$select = selected( $value, $val, false );
+		}
+		return $select;
+	}
+
 	public function add_custom_whitelist_options_fields() {
 		register_setting( $this->plugin_basename , 'custom-next-page', array( &$this, 'register_setting_check' ) );
 		register_setting( $this->plugin_basename , 'custom-next-page-convert', array( &$this, 'register_setting_convert' ) );
@@ -188,6 +280,8 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 
 	public function register_setting_check( $value ) {
 		$value['filter'] = (int) $value['filter'];
+		$value['style'] = preg_replace( '/(\&lt;(.*)\&gt;)/ism', '', esc_textarea( $value['style'] ) );
+
 		return $value;
 	}
 
