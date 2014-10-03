@@ -3,7 +3,7 @@ Contributors: Webnist
 Tags: nextpage multipage
 Requires at least: 3.6
 Tested up to: 4.0
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 
 MultiPage is a customizable plugin
@@ -30,6 +30,9 @@ Automatically replace the wp_link_pages. To check?
 Or the  Please insert a template.
 
 == Changelog ==
+= 1.0.1 =
+Add Reset CSS button
+
 = 1.0.0 =
 Add CSS Edit
 

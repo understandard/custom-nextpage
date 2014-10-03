@@ -7,6 +7,13 @@
 	clear: both;
 	content: "";
 }
+#custom-next-page-options .form-table {
+	margin: 0;
+}
+#custom-next-page-options th {
+	padding: 15px 10px;
+}
+
 #custom-next-page-options form {
 	width: 100%;
 	margin: 20px -200px 0 0;
@@ -16,12 +23,6 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
-#custom-next-page-options form textarea {
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-}
-
 #custom-next-page-options div.submit {
 	text-align: center;
 	margin: 0;

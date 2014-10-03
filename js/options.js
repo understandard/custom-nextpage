@@ -1,5 +1,12 @@
 (function($){
+	var cnp = {};
 	$(window).load(function() {
+		cnp.code_mirror = code_mirror = CodeMirror.fromTextArea(document.getElementById('style-editor'), {
+			mode: 'text/css',
+			lineNumbers: true,
+			matchBrackets: true,
+			extraKeys: {"Ctrl-Space": "autocomplete"}
+		});
 		if ( $('select#styletype')[0] ) {
 			var val = $('select#styletype').val();
 			if ( 1 == val ) {
@@ -42,5 +49,21 @@
 				}
 			});
 		}
+		$('#reset-css').on( 'click', function() {
+			console.log( code_mirror );
+			$.ajax({
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					'action': 'reset_css',
+					'security': resetCss.security
+				},
+				url: resetCss.url,
+				success: function( json ) {
+					$('#style-editor').val( json.style );
+					code_mirror.setValue( json.style );
+				}
+			});
+		});
 	});
 })(jQuery);

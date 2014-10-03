@@ -8,6 +8,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_init', array( &$this, 'add_general_custom_fields' ) );
 		add_filter( 'admin_init', array( &$this, 'add_custom_whitelist_options_fields' ) );
+		add_action( 'wp_ajax_reset_css', array( $this, 'reset_css') );
 	}
 
 	public function admin_menu() {
@@ -22,12 +23,20 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			wp_enqueue_style( 'codemirror-show-hint', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/addon/hint/show-hint.css', array(), $this->version );
 			wp_enqueue_style( 'codemirror-style', CUSTOM_NEXTPAGE_URL . '/css/codemirror-style.css', array(), $this->version );
 
-			wp_enqueue_script( 'options-customnextpage', CUSTOM_NEXTPAGE_URL . '/js/options.js', array('jquery'), $this->version, true );
 			wp_enqueue_script( 'codemirror', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/lib/codemirror.js', array(), $this->version, true );
 			wp_enqueue_script( 'codemirror-show-hint', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/addon/hint/show-hint.js', array('codemirror'), $this->version, true );
 			wp_enqueue_script( 'codemirror-css-hint', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/addon/hint/css-hint.js', array('codemirror'), $this->version, true );
 			wp_enqueue_script( 'codemirror-mode-css', CUSTOM_NEXTPAGE_URL . '/includes/codemirror/mode/css/css.js', array('codemirror'), $this->version, true );
-			wp_enqueue_script( 'codemirror-conf', CUSTOM_NEXTPAGE_URL . '/js/codemirror-conf.js', array('codemirror', 'codemirror-mode-css'), $this->version, true );
+			wp_enqueue_script( 'options-customnextpage', CUSTOM_NEXTPAGE_URL . '/js/options.js', array('jquery'), $this->version, true );
+
+			wp_localize_script(
+				'options-customnextpage',
+				'resetCss',
+				array(
+					'url'      => admin_url( 'admin-ajax.php' ),
+					'security' => wp_create_nonce( 'reset-css' )
+				)
+			);
 		}
 	}
 
@@ -185,9 +194,9 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			array(
 				'name'   => 'custom-next-page[styletype]',
 				'option' => array(
-					'0'  => __( 'Default', $this->domain),
-					'1'  => __( 'Style Edit', $this->domain),
-					'2'  => __( 'Disable', $this->domain),
+					'0'  => __( 'Default', $this->domain ),
+					'1'  => __( 'Style Edit', $this->domain ),
+					'2'  => __( 'Disable', $this->domain ),
 				),
 				'id'    => 'styletype',
 				'value'  => $this->styletype,
@@ -200,8 +209,10 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			$this->plugin_basename ,
 			'style',
 			array(
+				'id'    => 'style-editor',
 				'name'  => 'custom-next-page[style]',
 				'value' => $this->style,
+				'desc'  => __( 'Press ctrl-space to activate autocompletion. <span class="button button-primary" id="reset-css">Reset</span>', $this->domain ),
 			)
 		);
 	}
@@ -211,7 +222,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 
 		$id      = ! empty( $id ) ? $id : $name;
 		$desc    = ! empty( $desc ) ? $desc : '';
-		$output  = '<input type="text" name="' . $name .'" id="' . $name .'" class="regular-text" value="' . $value .'" />' . "\n";
+		$output  = '<input type="text" name="' . $name .'" id="' . $id .'" class="regular-text" value="' . $value .'" />' . "\n";
 		if ( $desc )
 			$output .= '<p class="description">' . $desc . '</p>' . "\n";
 
@@ -223,7 +234,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 
 		$id      = ! empty( $id ) ? $id : $name;
 		$desc    = ! empty( $desc ) ? $desc : '';
-		$output  = '<textarea name="' . $name .'" rows="10" cols="50" id="' . $name .'" class="large-text code">' . $value . '</textarea>' . "\n";
+		$output  = '<textarea name="' . $name .'" rows="10" cols="50" id="' . $id .'" class="large-text code">' . $value . '</textarea>' . "\n";
 		if ( $desc )
 			$output .= '<p class="description">' . $desc . '</p>' . "\n";
 		echo $output;
@@ -235,7 +246,7 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 		$id      = ! empty( $id ) ? $id : $name;
 		$desc    = ! empty( $desc ) ? $desc : '';
 		$output  = '<label for="' . $name . '">' . "\n";
-		$output  .= '<input name="' . $name . '" type="checkbox" id="' . $name . '" value="1"' . checked( $value, 1, false ) . '>' . "\n";
+		$output  .= '<input name="' . $name . '" type="checkbox" id="' . $id . '" value="1"' . checked( $value, 1, false ) . '>' . "\n";
 		if ( $desc )
 			$output .= $desc . "\n";
 		$output  .= '</label>' . "\n";
@@ -270,6 +281,14 @@ class CustomNextPageAdmin extends CustomNextPageInit {
 			$select = selected( $value, $val, false );
 		}
 		return $select;
+	}
+
+	public function reset_css() {
+		check_ajax_referer( 'reset-css', 'security' );
+		$return = array(
+			'style' => $this->css
+		);
+		wp_send_json( $return );
 	}
 
 	public function add_custom_whitelist_options_fields() {

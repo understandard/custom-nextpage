@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Custom Nextpage 0.9.8\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/custom-nextpage\n"
-"POT-Creation-Date: 2014-10-02 09:41:30+00:00\n"
-"PO-Revision-Date: 2014-10-02 18:41+0900\n"
+"POT-Creation-Date: 2014-10-03 04:12:45+00:00\n"
+"PO-Revision-Date: 2014-10-03 13:14+0900\n"
 "Last-Translator: Webnist <webnist@webnist.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ja\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: custom-nextpage.php:50 custom-nextpage.php:63
-#: includes/class-admin-menu.php:297
+#: includes/class-admin-menu.php:316
 msgid "&#171;"
 msgstr "&#187;"
 
 #: custom-nextpage.php:51 custom-nextpage.php:64
-#: includes/class-admin-menu.php:296
+#: includes/class-admin-menu.php:315
 msgid "&#187;"
 msgstr "&#187;"
 
@@ -46,89 +46,96 @@ msgid "Cancel"
 msgstr "キャンセル"
 
 #. Plugin Name of the plugin/theme
-#: includes/class-admin-menu.php:14
+#: includes/class-admin-menu.php:15
 msgid "Custom Nextpage"
 msgstr "カスタムネクストページ"
 
-#: includes/class-admin-menu.php:35
+#: includes/class-admin-menu.php:44
 msgid "Set Custom Nextpage"
 msgstr "Custom Nextpage 設定"
 
-#: includes/class-admin-menu.php:45
+#: includes/class-admin-menu.php:54
 msgid "Convert to new options"
 msgstr "新しいオプションに変換します。"
 
-#: includes/class-admin-menu.php:46 includes/class-admin-menu.php:289
+#: includes/class-admin-menu.php:55 includes/class-admin-menu.php:308
 msgid "Convert"
 msgstr "コンバート"
 
-#: includes/class-admin-menu.php:48
+#: includes/class-admin-menu.php:57
 msgid "Setting initialization"
 msgstr "設定の初期化"
 
-#: includes/class-admin-menu.php:49 includes/class-admin-menu.php:310
+#: includes/class-admin-menu.php:58 includes/class-admin-menu.php:329
 msgid "Initialization"
 msgstr "初期化"
 
-#: includes/class-admin-menu.php:60
+#: includes/class-admin-menu.php:69
 msgid "General"
 msgstr "基本設定"
 
-#: includes/class-admin-menu.php:67
+#: includes/class-admin-menu.php:76
 msgid "Automatically replace the wp_link_pages."
 msgstr "自動で wp_link_pages を置き換える。"
 
-#: includes/class-admin-menu.php:79
+#: includes/class-admin-menu.php:88
 msgid "Before Text"
 msgstr "タイトルナビゲーションの前に入れるテキスト。"
 
-#: includes/class-admin-menu.php:90
+#: includes/class-admin-menu.php:99
 msgid "After Text"
 msgstr "タイトルナビゲーションの後ろに入れるテキスト。"
 
-#: includes/class-admin-menu.php:102
+#: includes/class-admin-menu.php:111
 msgid "The first and last page links displayed."
 msgstr "最初と最後のリンクを表示する"
 
-#: includes/class-admin-menu.php:114
+#: includes/class-admin-menu.php:123
 msgid "Next and previous page links to display."
 msgstr "次と前のリンクを表示する"
 
-#: includes/class-admin-menu.php:126
+#: includes/class-admin-menu.php:135
 msgid "Text For First Page"
 msgstr "最初のページリンクのテキスト"
 
-#: includes/class-admin-menu.php:138
+#: includes/class-admin-menu.php:147
 msgid "Text For Last Page"
 msgstr "最後のページリンクのテキスト"
 
-#: includes/class-admin-menu.php:150
+#: includes/class-admin-menu.php:159
 msgid "Text For Next Page"
 msgstr "次のページリンクのテキスト"
 
-#: includes/class-admin-menu.php:162
+#: includes/class-admin-menu.php:171
 msgid "Text For Previous Page"
 msgstr "前のページリンクのテキスト"
 
-#: includes/class-admin-menu.php:174
+#: includes/class-admin-menu.php:183
 msgid "Style"
 msgstr "スタイル"
 
-#: includes/class-admin-menu.php:181
+#: includes/class-admin-menu.php:190
 msgid "Select Style type"
 msgstr "スタイルの選択"
 
-#: includes/class-admin-menu.php:188
+#: includes/class-admin-menu.php:197
 msgid "Default"
 msgstr "デフォルト"
 
-#: includes/class-admin-menu.php:189 includes/class-admin-menu.php:198
+#: includes/class-admin-menu.php:198 includes/class-admin-menu.php:207
 msgid "Style Edit"
 msgstr "スタイル編集"
 
-#: includes/class-admin-menu.php:190
+#: includes/class-admin-menu.php:199
 msgid "Disable"
 msgstr "無効化"
+
+#: includes/class-admin-menu.php:215
+#, fuzzy
+msgid ""
+"Press ctrl-space to activate autocompletion. <span class=\"button button-"
+"primary\" id=\"reset-css\">Reset</span>"
+msgstr "<span class=”nav-next” id=”gallery-%s”>></span>"
 
 #: includes/tinymce/plugins/customnextpage/langs/langs.php:5
 #: includes/tinymce/plugins/customnextpage/langs/langs.php:6
