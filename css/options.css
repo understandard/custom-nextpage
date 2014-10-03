@@ -1,6 +1,6 @@
 @charset "UTF-8";
 #custom-next-page-options {
-	overflow: hidden;
+	*zoom: 1;
 }
 #custom-next-page-options:after {
 	display: table;
@@ -14,21 +14,24 @@
 	padding: 15px 10px;
 }
 
-#custom-next-page-options form {
-	width: 100%;
-	margin: 20px -200px 0 0;
-	padding: 0 200px 0 0;
-	float: right;
+#custom-next-page-options form,
+#options-nav {
 	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	background-color: #fff;
+}
+#custom-next-page-options form {
+	margin: 20px 0 0;
+	border: 1px solid #e5e5e5;
+	overflow: hidden;
 }
 #custom-next-page-options div.submit {
 	text-align: center;
 	margin: 0;
-	border: 1px solid #ddd;
+	border-top: 1px solid #e5e5e5;
 	padding: 7px 0;
-	background-color: #f1f1f1;
 	clear: both;
 }
 #custom-next-page-options div.submit h2 {
@@ -43,40 +46,32 @@
 	width: 200px;
 	margin: 20px 0 0;
 	border: 1px solid #e5e5e5;
+	border-right: 0;
 	padding: 0;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	background: #fff;
 	list-style: none;
 	float: left;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
 }
 #options-nav li {
 	margin: 0;
 	border-top: 1px solid #e5e5e5;
 	padding: 7px 10px;
+	background-color: #f1f1f1;
 }
 #options-nav li:first-child {
 	border-top: none;
 }
 #options-nav li.current {
-	background-color: #f1f1f1;
+	background-color: #fff;
 }
 
 .options-wrap {
-	border: 1px solid #e5e5e5;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	background: #fff;
 	display: none;
 }
 .options-wrap h3 {
 	margin: 0;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #e5e5e5;
 	padding: 7px 10px;
-	background-color: #f1f1f1;
 }
 .options-wrap table {
 	margin: 10px;
@@ -84,4 +79,39 @@
 
 .options-wrap-current {
 	display: block;
+}
+
+@media screen and (max-width: 782px){
+	#options-nav{
+		float: none;
+		width: 100%;
+		border: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		overflow: hidden;
+		*zoom: 1;
+	}
+	#options-nav li,
+	#options-nav li:first-child{
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		border: 1px solid #e5e5e5;
+		float: left;
+		width: 50%;
+		text-align: center;
+	}
+	#options-nav li:first-child{
+		border-right: 0;
+	}
+	#options-nav li.current{
+		border-bottom-color: #fff;
+	}
+	#custom-next-page-options form{
+		margin-top: 0;
+		padding-top: 10px;
+		border-top: 0;
+	}
+	.form-table td{
+		padding-left: 10px;
+	}
 }
